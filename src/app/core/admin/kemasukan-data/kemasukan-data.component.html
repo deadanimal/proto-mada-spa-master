@@ -1,0 +1,416 @@
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-dark d-inline-block mb-0"> Kemasukan Data </h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class=" breadcrumb-item">
+                                <a href="javascript:void(0)"> <i class="fas fa-sign-in-alt text-dark"> </i> </a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="col-lg-6 col-5 text-right">
+                    <a class="btn btn-sm btn-default text-white" (click)=" openModal(createNew)">
+                        Cipta
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header bg-default">
+                    <h3 class="m-0 text-center text-white"> Taburan Hujan </h3>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="chart">
+                        <div class="amchart" id="chartkemasukandata1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header bg-default">
+                    <h3 class="m-0 text-center text-white"> Penggunaan Air </h3>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="chart">
+                        <div class="amchart" id="chartkemasukandata2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header bg-default">
+                    <h3 class="m-0 text-center text-white"> Senarai Daftar </h3>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="dataTables_wrapper py-4">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="datatable_length">
+                                    <label>
+                                        Tunjuk
+                                        <select name="datatable_length" aria-controls="datatable"
+                                            class="form-control form-control-sm" (change)="entriesChange($event)">
+                                            <option value="5" [selected]="entries==5">5</option>
+                                            <option value="10" [selected]="entries==10">10</option>
+                                            <option value="15" [selected]="entries==15">15</option>
+                                            <option value="-1" [selected]="entries==-1">All</option>
+                                        </select>
+                                        kemasukan
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div id="datatable_filter" class="dataTables_filter">
+                                    <label>
+                                        <input type="search" class="form-control form-control-sm"
+                                            placeholder="Search records" aria-controls="datatable"
+                                            (keyup)="filterTable($event)" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" [rowHeight]="'auto'"
+                            [limit]="entries != -1 ? entries:undefined" [rows]="temp"
+                            (activate)="onActivate($event)">
+
+                            <ngx-datatable-column name="Taburan Hujan">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.tabHujan}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Status Empangan">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.statEmp}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Paras Air di Alator">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.parAir}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Aliran Sungai">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.aliSung}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="EPAN">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.epan}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="CHO">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.cho}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kemajuan Aktiviti Taman">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.kemAkt}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kemaskini Kedalaman Air">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.kemasDalam}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Action">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span>{{column.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <!-- <button class=" btn btn-icon btn-danger btn-sm" type="button" title="Action" (click)="openModal(viewAction)">
+                                    <span class=" btn-inner--icon"> <i class=" fas fa-file-pdf"> </i> </span>
+                                </button> -->
+                                    <button class=" btn btn-icon btn-default btn-sm" type="button" title="View"
+                                        (click)="openModal(editData)">
+                                        <span class=" btn-inner--icon"> <i class=" far fa-eye"> </i> </span>
+                                    </button>
+                                    <!-- <button class=" btn btn-icon btn-success btn-sm" type="button" title="Edit"
+                                    (click)="openModal(viewAction)">
+                                    <span class=" btn-inner--icon"> <i class=" fas fa-edit"> </i> </span>
+                                </button> -->
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #createNew>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Cipta Baru
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="registerForm">
+            <div class="form-group">
+                <label class="form-control-label"> Taburan Hujan </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name1" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name1">
+                    <div
+                        *ngIf="registerForm.get('name1').hasError(message.type) && (registerForm.get('name1').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Status Empangan </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name2" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name2">
+                    <div
+                        *ngIf="registerForm.get('name2').hasError(message.type) && (registerForm.get('name2').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Paras Air di Alator </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name3" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name3">
+                    <div
+                        *ngIf="registerForm.get('name3').hasError(message.type) && (registerForm.get('name3').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Aliran Sungai </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name4" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name4">
+                    <div
+                        *ngIf="registerForm.get('name4').hasError(message.type) && (registerForm.get('name4').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> EPAN </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name5" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name5">
+                    <div
+                        *ngIf="registerForm.get('name5').hasError(message.type) && (registerForm.get('name5').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> CHO </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name6" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name6">
+                    <div
+                        *ngIf="registerForm.get('name6').hasError(message.type) && (registerForm.get('name6').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Kemajuan Aktiviti Taman </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name7" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name7">
+                    <div
+                        *ngIf="registerForm.get('name7').hasError(message.type) && (registerForm.get('name7').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Kemaskini Kedalaman Air </label>
+                <input class="form-control" placeholder="Masukkan disini..." formControlName="name8" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name8">
+                    <div
+                        *ngIf="registerForm.get('name8').hasError(message.type) && (registerForm.get('name8').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <!-- <div class="form-group">
+                <label class="form-control-label"> Email </label>
+                <input class="form-control" placeholder="Masukkan email" formControlName="email" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.email">
+                    <div
+                        *ngIf="registerForm.get('email').hasError(message.type) && (registerForm.get('email').dirty || registerForm.get('email').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div> -->
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success" type="button" (click)="confirm()" [disabled]="!registerForm.valid">
+            Simpan
+        </button>
+
+        <button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #editData>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Edit Data
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="registerForm">
+            <div class="form-group">
+                <label class="form-control-label"> Taburan Hujan </label>
+                <input class="form-control" placeholder="50%" formControlName="name1" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name1">
+                    <div
+                        *ngIf="registerForm.get('name1').hasError(message.type) && (registerForm.get('name1').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Status Empangan </label>
+                <input class="form-control" placeholder="60%" formControlName="name2" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name2">
+                    <div
+                        *ngIf="registerForm.get('name2').hasError(message.type) && (registerForm.get('name2').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Paras Air di Alator </label>
+                <input class="form-control" placeholder="80%" formControlName="name3" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name3">
+                    <div
+                        *ngIf="registerForm.get('name3').hasError(message.type) && (registerForm.get('name3').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Aliran Sungai </label>
+                <input class="form-control" placeholder="80%" formControlName="name4" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name4">
+                    <div
+                        *ngIf="registerForm.get('name4').hasError(message.type) && (registerForm.get('name4').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> EPAN </label>
+                <input class="form-control" placeholder="70%" formControlName="name5" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name5">
+                    <div
+                        *ngIf="registerForm.get('name5').hasError(message.type) && (registerForm.get('name5').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> CHO </label>
+                <input class="form-control" placeholder="50%" formControlName="name6" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name6">
+                    <div
+                        *ngIf="registerForm.get('name6').hasError(message.type) && (registerForm.get('name6').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Kemajuan Aktiviti Taman </label>
+                <input class="form-control" placeholder="90%" formControlName="name7" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name7">
+                    <div
+                        *ngIf="registerForm.get('name7').hasError(message.type) && (registerForm.get('name7').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label"> Kemaskini Kedalaman Air </label>
+                <input class="form-control" placeholder="80%" formControlName="name8" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.name8">
+                    <div
+                        *ngIf="registerForm.get('name8').hasError(message.type) && (registerForm.get('name8').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div>
+            <!-- <div class="form-group">
+                <label class="form-control-label"> Email </label>
+                <input class="form-control" placeholder="Masukkan email" formControlName="email" type="text">
+                <ng-container *ngFor="let message of registerFormMessages.email">
+                    <div
+                        *ngIf="registerForm.get('email').hasError(message.type) && (registerForm.get('email').dirty || registerForm.get('email').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+            </div> -->
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success" type="button" (click)="confirm()" [disabled]="!registerForm.valid">
+            Simpan
+        </button>
+
+        <button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+            Tutup
+        </button>
+    </div>
+</ng-template>
